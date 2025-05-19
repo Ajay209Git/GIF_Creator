@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Professional GIF Creator</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1741a6;
+      --background: #f8fafc;
+      --card-bg: #fff;
+      --border: #e5e7eb;
+      --radius: 14px;
+      --shadow: 0 2px 16px rgba(0,0,0,0.07);
+      --font-main: 'Segoe UI', Arial, sans-serif;
+    }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--background);
+      font-family: var(--font-main);
+      color: #222;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .container {
+      max-width: 430px;
+      margin: 36px auto;
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 32px 24px 24px 24px;
+      border: 1px solid var(--border);
+      box-sizing: border-box;
+    }
+    h2 {
+      margin-top: 0;
+      margin-bottom: 18px;
+      font-size: 1.5rem;
+      color: var(--primary);
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      text-align: center;
+    }
+    label {
+      font-size: 1rem;
+      margin: 0 0 6px 0;
+      display: block;
+      font-weight: 500;
+      color: #222;
+    }
+    .settings-row {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .settings-row > * {
+      flex: 1 1 0;
+      min-width: 0;
+    }
+    .settings-row input[type=number],
+    .settings-row input[type=range] {
+      width: 70px;
+      padding: 4px;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid var(--border);
+      background: #f4f6f8;
+    }
+    .settings-row input[type=range] {
+      width: 100px;
+      vertical-align: middle;
+    }
+    .settings-row .value-label {
+      min-width: 35px;
+      text-align: left;
+      color: #2563eb;
+      font-size: 0.95rem;
+    }
+    #imageInput {
+      display: block;
+      width: 100%;
+      margin-bottom: 16px;
+      font-size: 1rem;
+      padding: 8px 0;
+    }
+    #makeGif {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      padding: 12px 0;
+      width: 100%;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 12px;
+      transition: background 0.18s;
+    }
+    #makeGif:disabled {
+      background: #bcd0f7;
+      cursor: not-allowed;
+    }
+    #makeGif:hover:enabled, #downloadGif:hover {
+      background: var(--primary-dark);
+    }
+    #downloadGif {
+      background: #16a34a;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 1rem;
+      padding: 12px 0;
+      width: 100%;
+      cursor: pointer;
+      font-weight: 600;
+      margin-bottom: 16px;
+      margin-top: 0;
+      text-align: center;
+      text-decoration: none;
+      display: none;
+      transition: background 0.18s;
+    }
+    #downloadGif[disabled] {
+      background: #ccc;
+      color: #888;
+      cursor: default;
+    }
+    #preview {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 9px;
+      margin-bottom: 18px;
+      justify-content: center;
+    }
+    #preview img {
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+      max-width: 80px;
+      max-height: 80px;
+      object-fit: cover;
+      background: #fafafa;
+    }
+    #result {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    #result img {
+      border-radius: 7px;
+      border: 1px solid var(--border);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      max-width: 100%;
+      max-height: 220px;
+      margin: 0 auto;
+      display: block;
+      background: #fafafa;
+    }
+    .progress-container {
+      width: 100%;
+      background: #e5e7eb;
+      height: 8px;
+      border-radius: 6px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      display: none;
+    }
+    .progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+      width: 0%;
+      transition: width 0.3s;
+    }
+    .progress-label {
+      text-align: right;
+      font-size: 0.85rem;
+      color: #2563eb;
+      margin-bottom: 8px;
+      height: 18px;
+    }
+    @media (max-width: 550px) {
+      .container {
+        max-width: 98vw;
+        padding: 18px 6vw 18px 6vw;
+      }
+      #preview img, #result img {
+        max-width: 58px;
+        max-height: 58px;
+      }
+      .settings-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 5px;
+      }
+    }
+    @media (max-width: 400px) {
+      .container {
+        padding: 10px 2vw 10px 2vw;
+      }
+      h2 {
+        font-size: 1.15rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Animated GIF Creator</h2>
+    <input type="file" id="imageInput" accept="image/*" multiple>
+    <form id="settingsForm" autocomplete="off" onsubmit="return false;">
+      <div class="settings-row">
+        <label for="frameDelay" style="flex:2;">Frame Delay (ms)</label>
+        <input type="number" id="frameDelay" min="20" max="5000" step="10" value="500">
+      </div>
+      <div class="settings-row">
+        <label for="gifQuality" style="flex:2;">GIF Quality</label>
+        <input type="range" id="gifQuality" min="1" max="30" value="10">
+        <span class="value-label" id="qualityValueLabel">10</span>
+      </div>
+    </form>
+    <div class="progress-label" id="progressLabel"></div>
+    <div class="progress-container" id="progressContainer">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+    <button id="makeGif">Create GIF</button>
+    <a id="downloadGif" href="#" download="animated.gif">Download GIF</a>
+    <div id="preview"></div>
+    <div id="result"></div>
+    <canvas id="canvas" style="display:none"></canvas>
+  </div>
+  <script>
+    const imageInput = document.getElementById('imageInput');
+    const preview = document.getElementById('preview');
+    const downloadBtn = document.getElementById('downloadGif');
+    const resultDiv = document.getElementById('result');
+    const makeGifBtn = document.getElementById('makeGif');
+    const progressBar = document.getElementById('progressBar');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressLabel = document.getElementById('progressLabel');
+    const frameDelayInput = document.getElementById('frameDelay');
+    const gifQualityInput = document.getElementById('gifQuality');
+    const qualityValueLabel = document.getElementById('qualityValueLabel');
+    let images = [];
+    let currentGifURL = null;
+
+    gifQualityInput.addEventListener('input', function() {
+      qualityValueLabel.textContent = gifQualityInput.value;
+    });
+
+    function isValidPositiveInteger(val) {
+      return Number.isInteger(val) && val > 0;
+    }
+
+    function showProgressBar(label, percent) {
+      progressLabel.textContent = label;
+      progressContainer.style.display = 'block';
+      progressBar.style.width = percent + '%';
+    }
+    function hideProgressBar() {
+      progressLabel.textContent = '';
+      progressBar.style.width = '0%';
+      progressContainer.style.display = 'none';
+    }
+
+    function resetGIFResult() {
+      resultDiv.innerHTML = '';
+      if (currentGifURL) {
+        URL.revokeObjectURL(currentGifURL);
+        currentGifURL = null;
+      }
+      downloadBtn.style.display = 'none';
+      downloadBtn.removeAttribute('href');
+    }
+
+    imageInput.addEventListener('change', function(event) {
+      images = [];
+      preview.innerHTML = '';
+      resetGIFResult();
+      hideProgressBar();
+      const files = Array.from(event.target.files);
+      if (!files.length) return;
+
+      showProgressBar('Uploading images...', 0);
+      makeGifBtn.disabled = true;
+
+      let loadedCount = 0;
+      files.forEach((file, idx) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const img = document.createElement('img');
+          img.src = e.target.result;
+          img.onload = function() {
+            if (isValidPositiveInteger(img.naturalWidth) && isValidPositiveInteger(img.naturalHeight)) {
+              images[idx] = img; // Maintain order
+              preview.appendChild(img);
+            }
+            loadedCount++;
+            showProgressBar(
+              `Uploading images... (${loadedCount}/${files.length})`,
+              Math.floor((loadedCount / files.length) * 100)
+            );
+            if (loadedCount === files.length) {
+              setTimeout(() => {
+                hideProgressBar();
+                makeGifBtn.disabled = false;
+              }, 350);
+            }
+          };
+        };
+        reader.readAsDataURL(file);
+      });
+    });
+
+    makeGifBtn.onclick = function() {
+      resetGIFResult();
+      const loadedImages = images.filter(
+        img =>
+          img &&
+          img.complete &&
+          isValidPositiveInteger(img.naturalWidth) &&
+          isValidPositiveInteger(img.naturalHeight)
+      );
+
+      if (loadedImages.length === 0) {
+        alert('Please upload valid images before creating GIF!');
+        return;
+      }
+
+      // Use the largest image's size for maximum quality and preview the GIF responsively
+      const maxWidth = Math.max(...loadedImages.map(img => img.naturalWidth));
+      const maxHeight = Math.max(...loadedImages.map(img => img.naturalHeight));
+      const gifWidth = maxWidth;
+      const gifHeight = maxHeight;
+
+      if (!isValidPositiveInteger(gifWidth) || !isValidPositiveInteger(gifHeight)) {
+        alert('Image size invalid.');
+        return;
+      }
+
+      // Get user settings
+      let frameDelay = parseInt(frameDelayInput.value, 10);
+      let gifQuality = parseInt(gifQualityInput.value, 10);
+      if (isNaN(frameDelay) || frameDelay < 20) frameDelay = 500;
+      if (isNaN(gifQuality) || gifQuality < 1) gifQuality = 10;
+
+      const canvas = document.getElementById('canvas');
+      const ctx = canvas.getContext('2d', { willReadFrequently: true });
+      canvas.width = gifWidth;
+      canvas.height = gifHeight;
+
+      var gif = new GIF({
+        workers: 2,
+        quality: gifQuality,
+        workerScript: 'gif.worker.js',
+        width: gifWidth,
+        height: gifHeight
+      });
+
+      let frameCount = loadedImages.length;
+      let addedFrames = 0;
+      showProgressBar('Adding frames to GIF... (0/' + frameCount + ')', 0);
+      makeGifBtn.disabled = true;
+
+      loadedImages.forEach((img, idx) => {
+        let width = Math.floor(img.naturalWidth);
+        let height = Math.floor(img.naturalHeight);
+        if (!isValidPositiveInteger(width) || !isValidPositiveInteger(height)) return;
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#fff";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        let drawWidth = width;
+        let drawHeight = height;
+        let offsetX = Math.floor((gifWidth - drawWidth) / 2);
+        let offsetY = Math.floor((gifHeight - drawHeight) / 2);
+
+        ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+
+        gif.addFrame(ctx, {copy: true, delay: frameDelay});
+
+        addedFrames++;
+        showProgressBar(
+          `Adding frames to GIF... (${addedFrames}/${frameCount})`,
+          Math.floor((addedFrames / frameCount) * 100)
+        );
+      });
+
+      gif.on('progress', function(p) {
+        // p is [0, 1]
+        showProgressBar(
+          `Rendering GIF... (${Math.round(p * 100)}%)`,
+          Math.round(p * 100)
+        );
+      });
+
+      gif.on('finished', function(blob) {
+        const img = document.createElement('img');
+        currentGifURL = URL.createObjectURL(blob);
+        img.src = currentGifURL;
+        img.alt = "Animated GIF preview";
+        img.style.maxWidth = '220px';
+        img.style.maxHeight = '220px';
+        resultDiv.innerHTML = '';
+        resultDiv.appendChild(img);
+
+        downloadBtn.style.display = 'block';
+        downloadBtn.href = currentGifURL;
+        downloadBtn.setAttribute('download', 'animated.gif');
+        hideProgressBar();
+        makeGifBtn.disabled = false;
+      });
+
+      showProgressBar('Rendering GIF...', 0);
+      gif.render();
+    };
+
+    // Revoke blob URL on page unload
+    window.addEventListener('beforeunload', function(){
+      if(currentGifURL)
+        URL.revokeObjectURL(currentGifURL);
+    });
+  </script>
+</body>
+</html>
