@@ -2,9 +2,23 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Professional GIF Creator</title>
+  <title>Animated GIF Creator Online - Free, Fast, High Quality</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Create animated GIFs online for free! Upload images, set frame delay, adjust quality, preview, and download your GIF instantly. No installation needed. Responsive, easy-to-use, and privacy-friendly GIF maker.">
+  <meta name="keywords" content="animated gif creator, gif maker, online gif tool, create gif, image to gif, gif generator, free gif, gif editor, responsive gif creator, privacy friendly gif">
+  <meta name="robots" content="index, follow">
+  <meta property="og:title" content="Animated GIF Creator Online - Free, Fast, High Quality">
+  <meta property="og:description" content="Create animated GIFs online for free! Upload images, set frame delay, adjust quality, preview, and download your GIF instantly. No installation needed.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://yourdomain.com/">
+  <meta property="og:image" content="https://yourdomain.com/og-gif-creator.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Animated GIF Creator Online - Free, Fast, High Quality">
+  <meta name="twitter:description" content="Create animated GIFs online for free! Upload images, set frame delay, adjust quality, preview, and download your GIF instantly.">
+  <meta name="twitter:image" content="https://yourdomain.com/og-gif-creator.png">
+  <link rel="canonical" href="https://yourdomain.com/">
   <script src="https://cdn.jsdelivr.net/npm/gif.js.optimized/dist/gif.js"></script>
+  <!-- ...keep the rest of your style and script as before... -->
   <style>
     :root {
       --primary: #2563eb;
@@ -35,7 +49,7 @@
       border: 1px solid var(--border);
       box-sizing: border-box;
     }
-    h2 {
+    h1 {
       margin-top: 0;
       margin-bottom: 18px;
       font-size: 1.5rem;
@@ -204,15 +218,19 @@
       .container {
         padding: 10px 2vw 10px 2vw;
       }
-      h2 {
+      h1 {
         font-size: 1.15rem;
       }
     }
   </style>
 </head>
 <body>
+  <!-- SEO-friendly h1 and intro for accessibility and search -->
   <div class="container">
-    <h2>Animated GIF Creator</h2>
+    <h1>Animated GIF Creator Online</h1>
+    <p style="text-align:center; color:#444; margin-bottom:20px;">
+      <strong>Create animated GIFs online for free!</strong> Upload your images, set frame delay and quality, preview, and download your GIF instantly. No installation or registration required. Fast, privacy-friendly, and works on any device.
+    </p>
     <input type="file" id="imageInput" accept="image/*" multiple>
     <form id="settingsForm" autocomplete="off" onsubmit="return false;">
       <div class="settings-row">
@@ -236,6 +254,7 @@
     <canvas id="canvas" style="display:none"></canvas>
   </div>
   <script>
+    // ...your existing script code...
     const imageInput = document.getElementById('imageInput');
     const preview = document.getElementById('preview');
     const downloadBtn = document.getElementById('downloadGif');
