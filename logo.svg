@@ -1,0 +1,26 @@
+<svg width="128" height="128" viewBox="0 0 128 128" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="128" height="128" rx="28" fill="#2563eb"/>
+  <g>
+    <rect x="24" y="40" width="80" height="48" rx="9" fill="#fff" stroke="#1741a6" stroke-width="3"/>
+    <!-- Film strip holes -->
+    <rect x="29" y="44" width="6" height="8" rx="2" fill="#2563eb"/>
+    <rect x="93" y="44" width="6" height="8" rx="2" fill="#2563eb"/>
+    <rect x="29" y="76" width="6" height="8" rx="2" fill="#2563eb"/>
+    <rect x="93" y="76" width="6" height="8" rx="2" fill="#2563eb"/>
+    <!-- Play button (centered) -->
+    <polygon points="60,54 78,64 60,74" fill="#2563eb" stroke="#1741a6" stroke-width="2"/>
+    <!-- Sparkle for "animated" effect -->
+    <g>
+      <circle cx="42" cy="52" r="2.5" fill="#facc15"/>
+      <rect x="41.2" y="49.0" width="1.6" height="6.0" rx="0.8" fill="#facc15" transform="rotate(25 42 52)"/>
+      <rect x="39.0" y="51.2" width="6.0" height="1.6" rx="0.8" fill="#facc15" transform="rotate(25 42 52)"/>
+    </g>
+    <g>
+      <circle cx="86" cy="70" r="2.3" fill="#facc15"/>
+      <rect x="85.3" y="67.0" width="1.4" height="5.5" rx="0.7" fill="#facc15" transform="rotate(-15 86 70)"/>
+      <rect x="83.2" y="69.1" width="5.5" height="1.4" rx="0.7" fill="#facc15" transform="rotate(-15 86 70)"/>
+    </g>
+  </g>
+  <!-- App name below the icon -->
+  <text x="64" y="118" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="17" fill="#fff" font-weight="bold" letter-spacing="1">GIF Creator</text>
+</svg>
