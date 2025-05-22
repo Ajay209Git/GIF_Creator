@@ -280,6 +280,18 @@
     <div id="result"></div>
     <canvas id="canvas" style="display:none"></canvas>
   </div>
+<!-- Add inside your HTML file, e.g., index.html -->
+<div>
+  Page Views: <span id="page-view-count"></span>
+</div>
+<script>
+  // Retrieve or initialize page view count
+  let count = localStorage.getItem('gifCreatorPageViews');
+  count = count ? parseInt(count) : 0;
+  count += 1;
+  localStorage.setItem('gifCreatorPageViews', count);
+  document.getElementById('page-view-count').textContent = count;
+</script>
   <script>
     const imageInput = document.getElementById('imageInput');
     const preview = document.getElementById('preview');
